@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Browser Echo</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --border: #d0d7de;
+        --header-bg: #f6f8fa;
+        --row-alt: #fafbfc;
+        --muted: #57606a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --border: #30363d;
+          --header-bg: #161b22;
+          --row-alt: #0d1117;
+          --muted: #8b949e;
+        }
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 24px;
+        line-height: 1.5;
+      }
+      h1 { font-size: 20px; margin: 0 0 16px; }
+      h2 { font-size: 16px; margin: 24px 0 8px; }
+      .note { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 1100px;
+        font-size: 13px;
+        table-layout: fixed;
+      }
+      th, td {
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        text-align: left;
+        vertical-align: top;
+        word-break: break-word;
+      }
+      th { background: var(--header-bg); width: 260px; font-weight: 600; }
+      tbody tr:nth-child(even) { background: var(--row-alt); }
+      .status { font-style: italic; color: var(--muted); }
+      pre {
+        background: var(--header-bg);
+        border: 1px solid var(--border);
+        padding: 12px;
+        max-width: 1100px;
+        overflow: auto;
+        font-size: 12px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    </style>
+  </head>
+  <body>
+    <h1>Browser Echo</h1>
+    <p class="note">
+      静态前端无法直接读取真实的 HTTP 请求头与客户端 IP；表格 1 通过
+      <code>httpbin.org/headers</code> 获取服务器实际收到的请求头（失败时回退到
+      从 <code>navigator</code> 等 API 推断的值），表格 2 的 IP 通过
+      <code>api.ipify.org</code> 获取。
+    </p>
+
+    <h2>表格 1 - HTTP 请求头</h2>
+    <div id="headers-source" class="note status">加载中...</div>
+    <table>
+      <thead><tr><th>Header</th><th>Value</th></tr></thead>
+      <tbody id="headers-body"></tbody>
+    </table>
+
+    <h2>表格 2 - 浏览器的 IP / Locale / Language</h2>
+    <table>
+      <thead><tr><th>Key</th><th>Value</th></tr></thead>
+      <tbody id="netloc-body"></tbody>
+    </table>
+
+    <h2>表格 3 - navigator 可枚举属性</h2>
+    <table>
+      <thead><tr><th>Property</th><th>Value</th></tr></thead>
+      <tbody id="navigator-body"></tbody>
+    </table>
+
+    <h2>表格 4 - 以上信息的 JSON</h2>
+    <pre id="json-out">加载中...</pre>
+
+    <script src="./echo.js"></script>
+  </body>
+</html>
